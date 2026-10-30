@@ -1,0 +1,13 @@
+{
+  "name": "potato-quest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Potato Quest - a low-poly 2.5D action-RPG roguelite for potato hardware",
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "test": "node --test tests/",
+    "snap": "node tools/snapshot.mjs",
+    "build": "node tools/build.mjs"
+  }
+}

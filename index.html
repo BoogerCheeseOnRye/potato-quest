@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Potato Quest — Spudwrack Shore</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <svg id="scene" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-label="game world"></svg>
+  <div id="vignette"></div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div id="top">
+      <div id="zonebar">
+        <div id="zonename">Spudwrack Shore</div>
+        <div id="zoneinfo"><span id="clock">06:10</span> · <span id="zlvl">lvl 1-3</span> · <span id="pop">quiet</span></div>
+      </div>
+      <div id="topright">
+        <button class="iconbtn" id="soundbtn" title="Sound on/off">♪</button>
+        <button class="iconbtn" data-panel="map" title="Map">◈</button>
+        <button class="iconbtn" data-panel="quests" title="Quests">✦</button>
+        <button class="iconbtn" data-panel="menu" title="Menu">☰</button>
+      </div>
+    </div>
+
+    <div id="guide" class="hidden">
+      <div id="compass" title="Direction to your objective"><i id="needle">▲</i></div>
+      <div id="guidetext">
+        <div id="guidequest">—</div>
+        <div id="guideline">Look around.</div>
+      </div>
+      <div id="guidedist">—</div>
+    </div>
+
+    <div id="questtrack"></div>
+
+    <div id="bars">
+      <div class="bar hp"><i id="hpf"></i><b id="hpt">12 / 12</b></div>
+      <div class="bar mp"><i id="mpf"></i><b id="mpt">8 / 8</b></div>
+      <div class="bar xp"><i id="xpf"></i><b id="xpt">Lv 1</b></div>
+    </div>
+
+    <div id="log"></div>
+
+    <div id="bottom">
+      <div id="hotbar"></div>
+      <div id="viewrow">
+        <button class="chip" id="viewbtn">ISOMETRIC</button>
+        <button class="chip" data-panel="char">SHEET</button>
+        <button class="chip" data-panel="inv">BAG</button>
+        <button class="chip" data-panel="farm">CAMP</button>
+      </div>
+    </div>
+
+    <div id="targetcard" class="hidden">
+      <div class="tname"></div><div class="tbar"><i></i></div><div class="tinfo"></div>
+    </div>
+
+    <!-- touch controls -->
+    <div id="touchui">
+      <div id="stick"><i></i></div>
+      <div id="tbtns"></div>
+    </div>
+  </div>
+
+  <div id="floaters"></div>
+  <div id="panels"></div>
+  <div id="toasts"></div>
+
+  <!-- start / role pick -->
+  <div id="title" class="overlay">
+    <div class="titlebox">
+      <div class="logo">POTATO QUEST</div>
+      <div class="sub">wreckage · wilds · what came after</div>
+      <div class="shoreline" id="titleshore"></div>
+      <p class="blurb">You wash up on a rocky shore at the arse end of a dead empire, with one cold potato in your pocket.
+        Nobody is coming. Plant it. Pick a path. Keep a fire, and walk until you find people.</p>
+      <div id="roles"></div>
+      <div class="row">
+        <button id="newbtn" class="big">START</button>
+        <button id="loadbtn" class="big ghost">CONTINUE</button>
+      </div>
+      <div class="hint">keyboard/mouse · touch · gamepad (GameSir etc.)</div>
+    </div>
+  </div>
+
+  <div id="loading" class="overlay hidden"><div class="spinner"></div><div>reading the shore…</div></div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

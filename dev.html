@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#2a0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex">
+<title>DEV — Potato Quest model yard</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Dev-only chrome. Lives in dev.html, which the production build never copies. */
+  #devbanner{position:fixed;top:0;left:0;right:0;z-index:90;background:repeating-linear-gradient(45deg,#7a1414,#7a1414 14px,#5c0f0f 14px,#5c0f0f 28px);
+    color:#ffe3e3;font:700 10px/1.6 ui-monospace,monospace;letter-spacing:.12em;text-align:center;text-transform:uppercase;padding:2px 0}
+  body.dev #top{top:calc(22px + var(--safe-t))}
+  #devbar{position:fixed;left:0;right:0;bottom:0;z-index:91;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+    padding:6px calc(8px + var(--safe-r)) calc(6px + var(--safe-b)) calc(8px + var(--safe-l));
+    background:rgba(8,12,14,.92);border-top:1px solid #243139;font:11px/1.2 ui-monospace,monospace;color:#9fb6bc}
+  #devbar b{color:#e8c14a;letter-spacing:.06em}
+  #devbar button{font:inherit;background:#142026;color:#cfe6e2;border:1px solid #2b3d45;border-radius:4px;padding:5px 8px}
+  #devbar button.on{background:#1d4a44;border-color:#3f8a7e;color:#bff3ea}
+  #devbar .grow{flex:1 1 auto}
+  body.dev #bottom{bottom:calc(44px + var(--safe-b))}
+  body.dev #log{bottom:calc(200px + var(--safe-b))}
+  body.dev #bars{bottom:calc(120px + var(--safe-b))}
+</style>
+</head>
+<body class="dev">
+<div id="app">
+  <div id="devbanner">dev showcase · never shipped · build with tools/build.mjs</div>
+  <svg id="scene" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-label="model yard"></svg>
+  <div id="vignette"></div>
+
+  <!-- HUD: same markup as index.html so the real HUD code runs unchanged -->
+  <div id="hud" class="hidden">
+    <div id="top">
+      <div id="zonebar">
+        <div id="zonename">Model Yard</div>
+        <div id="zoneinfo"><span id="clock">06:10</span> · <span id="zlvl">dev</span> · <span id="pop">yard</span></div>
+      </div>
+      <div id="topright">
+        <button class="iconbtn" id="soundbtn" title="Sound on/off">♪</button>
+        <button class="iconbtn" data-panel="map" title="Map">◈</button>
+        <button class="iconbtn" data-panel="quests" title="Quests">✦</button>
+        <button class="iconbtn" data-panel="menu" title="Menu">☰</button>
+      </div>
+    </div>
+
+    <div id="guide" class="hidden">
+      <div id="compass" title="Direction to your objective"><i id="needle">▲</i></div>
+      <div id="guidetext">
+        <div id="guidequest">—</div>
+        <div id="guideline">Look around.</div>
+      </div>
+      <div id="guidedist">—</div>
+    </div>
+
+    <div id="questtrack"></div>
+
+    <div id="bars">
+      <div class="bar hp"><i id="hpf"></i><b id="hpt">12 / 12</b></div>
+      <div class="bar mp"><i id="mpf"></i><b id="mpt">8 / 8</b></div>
+      <div class="bar xp"><i id="xpf"></i><b id="xpt">Lv 1</b></div>
+    </div>
+
+    <div id="log"></div>
+
+    <div id="bottom">
+      <div id="hotbar"></div>
+      <div id="viewrow">
+        <button class="chip" id="viewbtn">ISOMETRIC</button>
+        <button class="chip" data-panel="char">SHEET</button>
+        <button class="chip" data-panel="inv">BAG</button>
+        <button class="chip" data-panel="farm">CAMP</button>
+      </div>
+    </div>
+
+    <div id="targetcard" class="hidden">
+      <div class="tname"></div><div class="tbar"><i></i></div><div class="tinfo"></div>
+    </div>
+
+    <div id="touchui">
+      <div id="stick"><i></i></div>
+      <div id="tbtns"></div>
+    </div>
+  </div>
+
+  <div id="floaters"></div>
+  <div id="panels"></div>
+  <div id="toasts"></div>
+
+  <!-- start screen: a click is required before the browser will make sound -->
+  <div id="title" class="overlay">
+    <div class="titlebox">
+      <div class="logo" style="color:#ff9a8a">MODEL YARD</div>
+      <div class="sub">dev showcase · not the game</div>
+      <p class="blurb">Every prop, creature and NPC in Potato Quest, laid out on one walkable field.
+        Walk with WASD / left stick, cycle cameras with the button below, and press 1–5 to wear each path.
+        This page is excluded from the production build; see README → Development.</p>
+      <div class="row">
+        <button id="enterbtn" class="big">ENTER SHOWCASE</button>
+      </div>
+      <div class="hint">dev.html · src/dev/showcase.js · never deployed</div>
+    </div>
+  </div>
+
+  <div id="devbar">
+    <b>DEV</b>
+    <span id="devinfo">—</span>
+    <span class="grow"></span>
+    <button data-role="warden">1 Warden</button>
+    <button data-role="drifter">2 Drifter</button>
+    <button data-role="technosavant">3 Techno</button>
+    <button data-role="shaman">4 Shaman</button>
+    <button data-role="tinker">5 Tinker</button>
+    <button id="dummybtn">Spawn live crab</button>
+    <button id="resetbtn">Reset yard</button>
+  </div>
+</div>
+<script type="module" src="src/dev/showcase.js"></script>
+</body>
+</html>
